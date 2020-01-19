@@ -1,0 +1,5 @@
+---
+nginx_ver: 1.16.1
+openssl_ver: 1.1.1c
+pcre_ver: 8.43
+zlib_ver: 1.2.11

@@ -10,10 +10,25 @@
     pkg:
       - build-essential
 
-- name: Extract foo.tgz into /var/lib/foo
+- name: Extract nginx
   unarchive:
-    src: xtables.tar.xz
-    dest: ~/xtables
+    src: nginx-{{ nginx_ver }}.tar.gz
+    dest: ~/nginx-{{ nginx_ver }}
+
+- name: Extract openssl
+  unarchive:
+    src: openssl-{{ openssl_ver }}.tar.gz
+    dest: ~/openssl-{{ openssl_ver }}
+
+- name: Extract pcre
+  unarchive:
+    src: pcre-{{ pcre_ver }}.tar.gz
+    dest: ~/pcre-{{ pcre_ver }}
+
+- name: Extract zlib
+  unarchive:
+    src: zlib-{{ zlib_ver }}.tar.gz
+    dest: ~/zlib- {{ zlib_ver }}
 
 # Setup for xtables version 3.2
 - name: Running configure
