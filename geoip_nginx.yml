@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  vars_prompt:
+    - name: "host_ip"
+      prompt: "IP address of host"
+      private: no
+
+    - name: "username"
+      prompt: "Host username"
+      private: no
+
+    - name: "password"
+      prompt: "Host password"
+      private: no
+
+    - name: "host_port"
+      prompt: "SSH port"
+      private: no
+
+  tasks:
+  - name: Add host
+    add_host:
+      name: host
+      ansible_host: "{{ host_ip }}"
+      groups: 'geoip_hosts'
+      ansible_ssh_pass: "{{ password }}"
+      ansible_ssh_port: "{{ host_port }}"
+      ansible_connect: ssh
+      ansible_user: "{{ username }}"
+      ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+- hosts: host
+  tasks:
+  - include_role:
+      name: geoip_nginx
