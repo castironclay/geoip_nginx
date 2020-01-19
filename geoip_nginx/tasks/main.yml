@@ -1,8 +1,4 @@
 ---
-- name: Update DNS
-  become: yes
-  shell: echo "nameserver 1.1.1.1" > /etc/resolv.conf
-
 - name: Update and upgrade apt packages
   become: yes
   apt:
@@ -12,19 +8,7 @@
 - name: Install Dependencies
   apt:
     pkg:
-      - libnet-cidr-lite-perl
-      - iptables-dev
-      - xtables-addons-common
-      - libtext-csv-xs-perl
-      - pkg-config
-
-- file:
-    path: ~/xtables
-    state: directory
-
-- file:
-    path: /usr/share/xt_geoip
-    state: directory
+      - build-essential
 
 - name: Extract foo.tgz into /var/lib/foo
   unarchive:
@@ -44,14 +28,3 @@
 
 - name: Running make install
   command: 'make install chdir=~/xtables/xtables-addons-3.2'
-
-- name: Extract Maxmind database files
-  unarchive:
-    src: GeoLite2-Country-CSV_20200114.zip
-    dest: ~/xtables/xtables-addons-3.2/geoip
-
-- name: Copy CSV files
-  shell: cp ~/xtables/xtables-addons-3.2/geoip/GeoLite2-Country-CSV_20200114/*.csv ~/xtables/xtables-addons-3.2/geoip
-
-- name: Build xtables
-  shell: cd ~/xtables/xtables-addons-3.2/geoip; ./xt_geoip_build -D "/usr/share/xt_geoip" -S $(find . -type d -name "Geo*")
