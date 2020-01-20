@@ -5,7 +5,7 @@ Install nginx along with geoip2 module and Maxmind database
 ansible-playbook geoip_nginx.yml
 
 ## You'll be prompted for your details
-IP address of host: ipaddress
-Host username: username
-Host password: password
-SSH port: xx
+IP address of host: *ipaddress* <br>
+Host username: *username* <br>
+Host password: *password* <br>
+SSH port: *xx* <br>
