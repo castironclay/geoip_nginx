@@ -50,3 +50,14 @@
 
 - name: Running make install
   shell: cd ~/nginx-{{ nginx_ver }}; make install
+
+- name: Create Nginx systemd file
+  copy:
+    src: nginx.service
+    dest: /lib/systemd/system/nginx.service
+
+- name: Restart Nginx
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: nginx
