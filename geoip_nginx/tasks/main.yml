@@ -9,37 +9,44 @@
   apt:
     pkg:
       - build-essential
+      - libmaxminddb-dev
+      - unzip
 
 - name: Extract nginx
   unarchive:
     src: nginx-{{ nginx_ver }}.tar.gz
-    dest: ~/nginx-{{ nginx_ver }}
+    dest: ~/
 
 - name: Extract openssl
   unarchive:
     src: openssl-{{ openssl_ver }}.tar.gz
-    dest: ~/openssl-{{ openssl_ver }}
+    dest: ~/
 
 - name: Extract pcre
   unarchive:
     src: pcre-{{ pcre_ver }}.tar.gz
-    dest: ~/pcre-{{ pcre_ver }}
+    dest: ~/
 
 - name: Extract zlib
   unarchive:
     src: zlib-{{ zlib_ver }}.tar.gz
-    dest: ~/zlib- {{ zlib_ver }}
+    dest: ~/
 
-# Setup for xtables version 3.2
+- name: Extract geoip2 module
+  unarchive:
+    src: geoip2_module.zip
+    dest: ~/
+
+- name: Extract Maxmind database
+  unarchive:
+    src: Geolite.db.zip
+    dest: ~/
+
 - name: Running configure
-  command: '"{{ item }}" chdir=~/xtables/xtables-addons-3.2'
-  with_items:
-    - ./configure
+  shell: cd ~/nginx-{{ nginx_ver }}; ./configure --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --sbin-path=/usr/sbin/nginx --pid-path=/run/nginx.pid --with-pcre=../pcre-{{ pcre_ver }} --with-openssl=../openssl-{{ openssl_ver }} --with-zlib=../zlib-{{ zlib_ver }} --with-http_ssl_module --modules-path=/usr/local/nginx/modules --add-module=../ngx_http_geoip2_module-master --without-http_geo_module
 
 - name: Running make
-  command: '"{{ item }}" chdir=~/xtables/xtables-addons-3.2'
-  with_items:
-    - make
+  shell: cd ~/nginx-{{ nginx_ver }}; make
 
 - name: Running make install
-  command: 'make install chdir=~/xtables/xtables-addons-3.2'
+  shell: cd ~/nginx-{{ nginx_ver }}; make install
